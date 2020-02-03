@@ -1,0 +1,105 @@
+SIMPLE 
+# fisierul 'index.html' care contine un text (aparent in titlu) e livrat de server ca si continut static #
+ app.use("/", express.static('public')) // in app
+
+# buton in html pe care se poate da click - faci si functia  #
+<button onclick="load()" id="load">Button</button>
+
+#incarcare in tabel cu un id 'main' a unei liste de obiecte cu un anumit atribut. Fiecare obiect va avea un anumit rand ('tr')
+//////declarare tabel in html
+<table id="main"></table>
+//////declarare 
+<script>
+var obiect;
+function load(){
+    fetch("http//localhost:8080/cars")  // preia din server lista de obiecte (format json)  
+    .then(response => {
+        return response.json(); //rezultat returnat de tip json
+    })
+    .then(myJson => {
+        cars = myJson;
+        for(var i = 0; i< cars.length; i++){
+            if(cars[i].color == "red"){
+                document.getElementById("main").innerHTML = "<tr><td>" + cars[i].name + "</td></tr>";
+                //innerHTML - seteaza textul pt fiecare rand/ coloana din tabel
+            }
+        }
+    });
+}
+</script>
+
+#  daca te pune sa creezi tu json-ul 
+{
+    "name":"Gigi",
+    "year":3,
+    "credits":120,
+    "superpowers":["power1","power2","power3"], //array simplu de stringuri
+    "grades":[{                 //array de obiecte
+        "class":"tw",
+        "homeworkSubmitted":true,
+        "examGrade":10
+    },
+    {
+        "class":"multimedia",
+        "homeworkSubmitted":true,
+        "examGrade":10
+    }
+    ]
+}
+
+#pt a citi json asincron si a afisa continutul lui in html (div)
+
+
+
+///// SIMPLE - VAR 2 //////
+1. Construiti json dupa schema
+{
+        "name": "maria"
+        "description": "abc",
+        "sizes": [5,6,3],
+        "inventory": [{
+            "supplierName":"sdf",
+            "quantity": 43, 
+            "aquisitionPrice": 23
+            
+        },
+        {
+            "supplierName": "are",
+            "quantity": 43,
+            "aquisitionPrice": 23
+        }]
+}
+
+2. intr-un fisier html sa se citeasca asincron json-ul si sa se puna in div
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="content">
+        <p>Test</p>
+    </div>
+</body>
+<script>
+    const getData = async() => {
+
+        const response = await fetch('/article.json')
+            .then((response) => {
+                return response.json();
+            })
+            .then((myJson) => {
+                document.querySelector('div').innerHTML = "<pre>" + JSON.stringify(myJson) + "</pre>";
+            });;
+        
+    }
+    
+    getData();
+</script>
+
+</html>
